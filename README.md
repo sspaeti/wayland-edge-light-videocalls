@@ -1,8 +1,8 @@
 # Edge Light for Video Calls
 
-A lightweight Python/Tkinter application that adds a customizable glowing edge light effect around your screen. Perfect for ambient lighting during video calls on Linux.
+A lightweight GTK4/Python application that adds a customizable glowing edge light effect around your screen. Perfect for ambient lighting during video calls on Linux with Hyprland.
 
-Inspired by origin www.github.com:shanselman/WindowsEdgeLight and apple announcement sawn on Twitter.
+Inspired by [shanselman/WindowsEdgeLight](https://github.com/shanselman/WindowsEdgeLight) and Apple's desk view camera announcement.
 
 ## Features
 
@@ -22,76 +22,75 @@ Inspired by origin www.github.com:shanselman/WindowsEdgeLight and apple announce
 
 ### Prerequisites
 
-- Python 3.8+ (comes with Tkinter)
-- UV package manager
-
-### Setup
-
-The project is already initialized with UV. To run:
-
-```bash
-cd /home/sspaeti/Documents/sandbox/light-for-videocall
-uv run main.py
-```
-
-## Usage
-
-1. Run the application
-2. A white border will appear around your screen edges
-3. Use the control panel at the bottom or keyboard shortcuts to adjust
-4. Press Escape to exit
-
-## Hyprland Integration
-
-### Launch Edge Light Only
-Add to your Hyprland bindings:
-```conf
-bind = SUPER, E, exec, cd /home/sspaeti/Documents/sandbox/light-for-videocall && uv run main.py
-```
-
-### Window Rules for Browser Auto-Positioning
-Add to your Hyprland config (e.g., `input.conf` or `hyprland.conf`):
-```conf
-# Auto-position Google Meet inside edge light border
-windowrulev2 = float, title:^(Meet)
-windowrulev2 = size 2720 1640, title:^(Meet)
-windowrulev2 = move 80 80, title:^(Meet)
-```
-
-### Manual Window Positioning Shortcuts
-Add keybindings to manually position any window:
-```conf
-bind = SUPER SHIFT, P, exec, hyprctl dispatch centerwindow
-bind = SUPER SHIFT CTRL, P, resizeactive, exact 2720 1640
-```
-
-### Launch Script (Edge Light + Browser)
-```bash
-./launch-videocall.sh https://meet.google.com
-```
-
-The script uses your `$BROWSER` environment variable (defaults to Brave with Wayland flags).
-
-## Technical Details
-
-- Uses GTK4 with PyGObject for native Linux support
-- Cairo drawing for smooth rendering
-- Works with X11 and Wayland window managers (Hyprland compatible!)
-- No XCB threading issues unlike Tkinter
-- Designed for Hyprland/Arch Linux but should work on any Linux system
-
-## Dependencies
-
-On Arch Linux, you need these system packages:
+**System packages** (Arch Linux):
 ```bash
 sudo pacman -S gtk4 python-gobject python-cairo
 ```
 
-The Python packages are managed by UV and installed automatically.
+**Python packages** (managed by UV):
+- Install [UV](https://github.com/astral-sh/uv) if you don't have it
+
+### Setup
+
+1. Clone this repository
+2. Run with UV (will auto-install Python dependencies):
+```bash
+uv run main.py
+```
+
+Or use the launcher script:
+```bash
+./launch-edgelight.sh
+```
+
+## Usage
+
+1. Launch the application
+2. A white border (80px) will appear around your screen edges
+3. Use the control panel at the bottom or keyboard shortcuts to adjust
+4. Press Escape to exit
+
+**Tip**: Position your video call app window manually inside the border for the perfect lighting effect!
+
+## Hyprland Integration
+
+### Quick Launch Keybinding
+Add to your Hyprland `bindings.conf`:
+```conf
+bind = SUPER SHIFT, Z, exec, /path/to/light-for-videocall/launch-edgelight.sh
+```
+
+The launcher script handles the full path to `uv` so it works from Hyprland keybindings.
+
+### Window Rules for Auto-Positioning (Optional)
+Automatically position Google Meet windows inside the border:
+```conf
+# Add to your Hyprland config (adjust size for your screen resolution and scale)
+windowrulev2 = float, title:^(Meet)
+windowrulev2 = size 1280 740, title:^(Meet)
+windowrulev2 = move 80 80, title:^(Meet)
+```
+
+**Note**: Window sizes need to account for your monitor's scale factor. For example:
+- Native 2880x1800 @ scale 2.0 = effective 1440x900
+- Border 80px leaves 1280x740 for the window (in scaled pixels)
+
+## Technical Details
+
+- **GTK4** with PyGObject for native Linux support
+- **Cairo** for smooth border rendering
+- Works with **X11 and Wayland** (Hyprland compatible!)
+- No XCB threading issues (unlike Tkinter)
+- Fullscreen overlay with transparent background
+- Border drawn at effective/scaled resolution
 
 ## Customization
 
 Edit `main.py` to adjust:
-- `border_width = 80` - Change border thickness (line 34)
-- `brightness = 1.0` - Default brightness level (line 33)
-- Window positioning and control panel location
+- `self.border_width = 80` - Change border thickness (line 34)
+- `self.brightness = 1.0` - Default brightness level (line 33)
+- Control panel position and appearance
+
+## License
+
+MIT License - Feel free to use and modify!
