@@ -2,7 +2,17 @@
 
 A lightweight GTK4/Python application that adds a customizable glowing edge light effect around your screen. Perfect for ambient lighting during video calls on Linux with Hyprland.
 
+You can use any app to put in the middle. Just start edge light, pop out your app you (Zoom, Google Keep, Teams, etc.) and put it in the middle.
+
 Inspired by [shanselman/WindowsEdgeLight](https://github.com/shanselman/WindowsEdgeLight) and Apple's desk view camera announcement.
+
+## Screnshots
+
+**Full light with Zoom**:
+![](images/fulllight-zoom.png)
+
+**Shows Toggles and dimmed to 39% with Google Keep**:
+![](images/toggles-dimmed.png)
 
 ## Features
 
@@ -58,6 +68,7 @@ Or use the launcher script:
 Add to your Hyprland `bindings.conf`:
 ```conf
 bind = SUPER SHIFT, Z, exec, /path/to/light-for-videocall/launch-edgelight.sh
+
 ```
 
 The launcher script handles the full path to `uv` so it works from Hyprland keybindings.
@@ -83,14 +94,3 @@ windowrulev2 = move 80 80, title:^(Meet)
 - No XCB threading issues (unlike Tkinter)
 - Fullscreen overlay with transparent background
 - Border drawn at effective/scaled resolution
-
-## Customization
-
-Edit `main.py` to adjust:
-- `self.border_width = 80` - Change border thickness (line 34)
-- `self.brightness = 1.0` - Default brightness level (line 33)
-- Control panel position and appearance
-
-## License
-
-MIT License - Feel free to use and modify!
