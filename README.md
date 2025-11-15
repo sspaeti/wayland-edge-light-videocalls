@@ -37,13 +37,13 @@ Inspired by [shanselman/WindowsEdgeLight](https://github.com/shanselman/WindowsE
 sudo pacman -S gtk4 python-gobject python-cairo
 ```
 
-**Python packages** (managed by UV):
-- Install [UV](https://github.com/astral-sh/uv) if you don't have it
+**Python packages** (managed by `uv`):
+- Install [uv](https://github.com/astral-sh/uv) if you don't have it
 
 ### Setup
 
 1. Clone this repository
-2. Run with UV (will auto-install Python dependencies):
+2. Run with uv (will auto-install Python dependencies):
 ```bash
 uv run main.py
 ```
